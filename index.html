@@ -2,395 +2,324 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="CW Payroll">
-<meta name="theme-color" content="#1a1a2e">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<title>Corpworks Payroll Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f2540">
+<title>CW Payroll Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f0f1a;--surface:#1a1a2e;--surface2:#22223a;--surface3:#2a2a48;--border:#2e2e50;--border2:#3d3d6a;--text:#f0eeff;--text2:#9999cc;--text3:#55556a;--accent:#4f46e5;--accent2:#3d35c0;--accent-dim:rgba(79,70,229,.15);--green:#4caf82;--green-dim:rgba(76,175,130,.15);--red:#e05c5c;--red-dim:rgba(224,92,92,.15);--yellow:#d4a843;--yellow-dim:rgba(212,168,67,.15);--orange:#E07B3C;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--font:'Barlow',sans-serif;--font-cond:'Barlow Condensed',sans-serif}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
-body{display:flex;flex-direction:column;max-width:920px;margin:0 auto}
-.login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;padding:24px}
-.login-card{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:40px 36px;width:100%;max-width:400px;text-align:center}
-.login-badge{width:72px;height:72px;background:var(--accent);border-radius:18px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-family:var(--font-cond);font-weight:800;font-size:28px;color:#fff}
-.login-title{font-family:var(--font-cond);font-size:26px;font-weight:800;color:var(--text);margin-bottom:4px}
-.login-sub{font-size:14px;color:var(--text2);margin-bottom:28px}
-.login-field{margin-bottom:16px;text-align:left}
-.login-label{font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
-.login-input{width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);font-family:var(--font);font-size:17px;font-weight:600;padding:14px 16px;border-radius:12px;outline:none;-webkit-appearance:none}
-.login-input:focus{border-color:var(--accent)}
-.login-btn{width:100%;padding:16px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-family:var(--font-cond);font-size:20px;font-weight:800;cursor:pointer;margin-top:8px}
-.login-btn:hover{background:var(--accent2)}
-.login-error{color:var(--red);font-size:13px;margin-top:10px;font-weight:600;min-height:20px}
-.app-bar{background:var(--bg);border-bottom:1px solid var(--border);padding:calc(var(--safe-top) + 10px) 20px 0;position:sticky;top:0;z-index:100}
-.bar-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.brand{display:flex;align-items:center;gap:10px}
-.brand-badge{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-cond);font-weight:800;font-size:15px;color:#fff}
-.brand-name{font-family:var(--font-cond);font-weight:800;font-size:17px;color:var(--text);letter-spacing:.04em;text-transform:uppercase}
-.brand-sub{font-size:10px;color:var(--text2);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
-.bar-right{display:flex;align-items:center;gap:10px}
-.logout-btn{padding:8px 14px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;font-family:var(--font-cond);font-size:13px;font-weight:700;color:var(--text2);cursor:pointer}
-.logout-btn:hover{color:var(--red)}
-.live-time{font-family:var(--font-cond);font-size:16px;font-weight:700;color:var(--text2)}
-.tabs{display:flex;border-top:1px solid var(--border);margin-top:2px}
-.tab{flex:1;padding:10px 6px;font-family:var(--font-cond);font-size:12px;font-weight:700;color:var(--text3);background:none;border:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;border-bottom:2px solid transparent;transition:all .15s;position:relative;top:1px}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.page{display:none;overflow-y:auto;padding-bottom:40px}
-.page.active{display:block}
-.summary-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:20px}
-.scard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
-.scard-val{font-family:var(--font-cond);font-size:28px;font-weight:800;color:var(--text)}
-.scard-val.green{color:var(--green)}.scard-val.yellow{color:var(--yellow)}.scard-val.orange{color:var(--orange)}.scard-val.accent{color:var(--accent)}
-.scard-lbl{font-size:10px;color:var(--text2);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
-.filter-bar{padding:0 20px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.filter-pill{padding:7px 14px;border-radius:20px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);font-family:var(--font-cond);font-size:13px;font-weight:700;cursor:pointer}
-.filter-pill.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
-.search-input{flex:1;min-width:140px;background:var(--surface2);border:1px solid var(--border2);color:var(--text);font-family:var(--font);font-size:14px;padding:8px 14px;border-radius:20px;outline:none}
-.search-input:focus{border-color:var(--accent)}
-.export-all-btn{padding:8px 16px;background:var(--green);color:#fff;border:none;border-radius:20px;font-family:var(--font-cond);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
-.import-btn{padding:8px 16px;background:var(--accent-dim);color:var(--accent);border:1px solid rgba(79,70,229,.3);border-radius:20px;font-family:var(--font-cond);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
-.subs-wrap{padding:0 20px;display:flex;flex-direction:column;gap:12px}
-.sub-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.sub-card.approved{border-left:4px solid var(--green)}
-.sub-card.pending{border-left:4px solid var(--yellow)}
-.sub-card.queried{border-left:4px solid var(--red)}
-.sub-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);cursor:pointer;gap:12px}
-.sub-head-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
-.tech-avatar{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--font-cond);font-size:18px;font-weight:800;color:#fff;flex-shrink:0}
-.sub-info{flex:1;min-width:0}
-.sub-tech{font-family:var(--font-cond);font-size:20px;font-weight:800;color:var(--text)}
-.sub-week{font-size:13px;color:var(--text2);margin-top:2px}
-.sub-head-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.status-badge{font-size:11px;padding:4px 10px;border-radius:20px;font-family:var(--font-cond);font-weight:700;letter-spacing:.05em;text-transform:uppercase}
-.badge-pending{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(212,168,67,.3)}
-.badge-approved{background:var(--green-dim);color:var(--green);border:1px solid rgba(76,175,130,.3)}
-.badge-queried{background:var(--red-dim);color:var(--red);border:1px solid rgba(224,92,92,.3)}
-.chevron{font-size:18px;color:var(--text3);transition:transform .2s;display:inline-block}
-.sub-card.open .chevron{transform:rotate(180deg)}
-.sub-body{display:none;padding:18px}
-.sub-card.open .sub-body{display:block}
-.sub-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
-.sub-stat{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
-.sub-stat-val{font-family:var(--font-cond);font-size:22px;font-weight:800;color:var(--text)}
-.sub-stat-val.green{color:var(--green)}.sub-stat-val.yellow{color:var(--yellow)}.sub-stat-val.accent{color:var(--accent)}
-.sub-stat-lbl{font-size:10px;color:var(--text3);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:3px}
-.clock-row{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap}
-.clock-item{font-size:13px;color:var(--text2)}
-.clock-item span{color:var(--text);font-weight:700}
-.jobs-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px}
-.jobs-table th{text-align:left;font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;padding:8px 8px;border-bottom:1px solid var(--border)}
-.jobs-table td{padding:10px 8px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
-.jobs-table tr:last-child td{border-bottom:none}
-.edit-hrs{width:46px;text-align:center;background:var(--surface3);border:1px solid var(--border2);color:var(--text);font-family:var(--font-cond);font-size:15px;font-weight:700;padding:5px 3px;border-radius:6px;outline:none}
-.edit-hrs:focus{border-color:var(--accent)}
-.edit-hrs::-webkit-inner-spin-button,.edit-hrs::-webkit-outer-spin-button{-webkit-appearance:none}
-.field-label{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
-.admin-notes{width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);font-family:var(--font);font-size:14px;padding:12px;border-radius:10px;outline:none;resize:vertical;min-height:70px;margin-bottom:16px}
-.admin-notes:focus{border-color:var(--accent)}
-.action-row{display:flex;gap:8px;flex-wrap:wrap}
-.act-btn{flex:1;padding:12px;border-radius:10px;border:none;font-family:var(--font-cond);font-size:15px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;min-width:100px}
-.act-btn:active{transform:scale(.97)}
-.btn-approve{background:var(--green);color:#fff}
-.btn-query{background:var(--red-dim);color:var(--red);border:1px solid rgba(224,92,92,.3)}
-.btn-query:hover{background:var(--red);color:#fff}
-.btn-secondary{background:var(--surface2);color:var(--text2);border:1px solid var(--border2)}
-.btn-secondary:hover{color:var(--text)}
-.btn-unapprove{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(212,168,67,.3)}
-.btn-danger{background:none;color:var(--red);border:1px solid rgba(224,92,92,.3)}
-.payroll-section{padding:20px}
-.payroll-week{margin-bottom:24px}
-.payroll-week-title{font-family:var(--font-cond);font-size:15px;font-weight:800;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.payroll-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:8px}
-.payroll-tech{font-family:var(--font-cond);font-size:18px;font-weight:800;color:var(--text)}
-.payroll-meta{font-size:12px;color:var(--text2);margin-top:2px}
-.payroll-hrs{font-family:var(--font-cond);font-size:22px;font-weight:800;color:var(--green)}
-.payroll-amt{font-family:var(--font-cond);font-size:20px;font-weight:800;color:var(--accent)}
-.settings-section{padding:20px;display:flex;flex-direction:column;gap:16px}
-.setting-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px}
-.setting-title{font-family:var(--font-cond);font-size:16px;font-weight:800;color:var(--text);margin-bottom:14px}
-.setting-input{width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);font-family:var(--font);font-size:16px;padding:12px 14px;border-radius:10px;outline:none;margin-bottom:10px}
-.setting-input:focus{border-color:var(--accent)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.chip{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border2);border-radius:20px;padding:6px 14px;font-size:14px;font-weight:600;color:var(--text2)}
-.chip button{background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:0;line-height:1}
-.chip button:hover{color:var(--red)}
-.add-row{display:flex;gap:8px}
-.add-row input{flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text);font-family:var(--font);font-size:15px;padding:10px 14px;border-radius:10px;outline:none}
-.add-row input:focus{border-color:var(--accent)}
-.add-row button,.pw-btn{padding:10px 18px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-family:var(--font-cond);font-size:15px;font-weight:800;cursor:pointer}
-.pw-row{display:flex;gap:8px}
-.pw-row input{flex:1}
-.danger-btn{width:100%;padding:12px;border-radius:10px;border:1px solid var(--red);background:none;color:var(--red);font-family:var(--font-cond);font-size:15px;font-weight:700;cursor:pointer;text-transform:uppercase}
-.empty{padding:60px 20px;text-align:center;color:var(--text3)}
-.empty-icon{font-size:48px;margin-bottom:12px;opacity:.2}
-.empty-text{font-family:var(--font-cond);font-size:18px;font-weight:700;text-transform:uppercase}
-.smartly-note{background:var(--accent-dim);border:1px solid rgba(79,70,229,.3);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.7}
-.smartly-note strong{color:var(--text)}
-.drop-zone{border:2px dashed var(--border2);border-radius:14px;padding:28px;text-align:center;color:var(--text3);font-family:var(--font-cond);font-size:15px;font-weight:700;margin:0 20px 16px;letter-spacing:.04em;cursor:pointer;transition:all .2s}
-.drop-zone.drag-over{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
-.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:12px 22px;border-radius:12px;font-size:14px;font-weight:600;z-index:9999;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast.ok{border-color:var(--green);color:var(--green)}
-.toast.err{border-color:var(--red);color:var(--red)}
+  :root {
+    --bg: #0f2540; --surface: #162d4e; --surface2: #1c3660; --border: #243f66;
+    --orange: #E07B3C; --orange-dim: rgba(224,123,60,0.12);
+    --text: #e8f0f8; --muted: #7a99bb;
+    --green: #4ade80; --red: #f87171; --yellow: #fbbf24; --blue: #60a5fa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; }
+  #loginScreen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+  .login-wrap { width: 100%; max-width: 400px; }
+  .admin-logo { margin-bottom: 2.5rem; }
+  .admin-logo .cw { font-family: 'Space Mono', monospace; font-size: 2.5rem; font-weight: 700; color: var(--orange); }
+  .admin-logo .sub { font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); margin-top: 0.25rem; }
+  .admin-logo .tag { display: inline-block; background: var(--orange-dim); border: 1px solid var(--orange); color: var(--orange); font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 4px; margin-top: 0.5rem; }
+  .login-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; }
+  .login-card h2 { font-size: 1.1rem; margin-bottom: 1.5rem; }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+  .field input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 1rem; padding: 0.75rem 1rem; outline: none; transition: border-color 0.2s; }
+  .field input:focus { border-color: var(--orange); }
+  .btn-primary { width: 100%; background: var(--orange); color: #fff; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; padding: 0.85rem; cursor: pointer; transition: opacity 0.2s; }
+  .btn-primary:hover { opacity: 0.9; }
+  .err { color: var(--red); font-size: 0.85rem; margin-top: 0.75rem; display: none; }
+  #adminApp { display: none; flex-direction: column; min-height: 100vh; }
+  .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+  .topbar-logo { font-family: 'Space Mono', monospace; font-weight: 700; color: var(--orange); font-size: 1.1rem; }
+  .topbar-title { font-size: 0.85rem; color: var(--muted); }
+  .topbar-actions { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+  .btn-sm { background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; padding: 0.45rem 1rem; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .btn-sm:hover { border-color: var(--orange); color: var(--orange); }
+  .btn-export { background: var(--orange); border: none; color: #fff; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 700; padding: 0.45rem 1.25rem; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; }
+  .btn-export:hover { opacity: 0.85; }
+  .filter-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.75rem 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+  .filter-bar select, .filter-bar input[type=week] { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; padding: 0.4rem 0.75rem; outline: none; }
+  .filter-bar select option { background: var(--surface2); }
+  .stats { display: flex; gap: 1.25rem; margin-left: auto; flex-wrap: wrap; }
+  .stat { font-size: 0.8rem; color: var(--muted); white-space: nowrap; }
+  .stat b { font-family: 'Space Mono', monospace; color: var(--orange); }
+  .table-wrap { flex: 1; overflow-x: auto; padding: 1.25rem 1.5rem; }
+  table { width: 100%; border-collapse: collapse; min-width: 900px; }
+  thead th { text-align: left; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; white-space: nowrap; }
+  thead th:hover { color: var(--text); }
+  tbody tr { border-bottom: 1px solid rgba(36,63,102,0.5); transition: background 0.15s; }
+  tbody tr:hover { background: var(--surface); }
+  td { padding: 0.8rem 0.75rem; font-size: 0.88rem; vertical-align: middle; }
+  .td-staff { font-weight: 600; }
+  .td-hours input { font-family: 'Space Mono', monospace; font-weight: 700; color: var(--orange); background: var(--surface2); border: 1px solid transparent; border-radius: 4px; width: 65px; padding: 0.25rem 0.4rem; font-size: 0.88rem; outline: none; }
+  .td-hours input:focus { border-color: var(--orange); }
+  .td-note input { background: var(--surface2); border: 1px solid transparent; border-radius: 4px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; padding: 0.25rem 0.5rem; width: 170px; outline: none; }
+  .td-note input:focus { border-color: var(--orange); }
+  .badge { display: inline-block; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; padding: 0.2rem 0.55rem; border-radius: 4px; font-weight: 700; }
+  .badge-pending { background: rgba(251,191,36,0.12); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
+  .badge-approved { background: rgba(74,222,128,0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.3); }
+  .btn-approve { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); color: var(--green); border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.75rem; cursor: pointer; transition: all 0.15s; }
+  .btn-approve:hover { background: rgba(74,222,128,0.2); }
+  .btn-undo { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; font-size: 0.7rem; padding: 0.3rem 0.6rem; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .btn-undo:hover { border-color: var(--red); color: var(--red); }
+  .empty-row td { text-align: center; color: var(--muted); padding: 3rem; }
+  .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1.25rem; font-size: 0.9rem; opacity: 0; transition: all 0.3s; z-index: 100; pointer-events: none; }
+  .toast.show { opacity: 1; }
+  .toast.success { border-color: var(--green); color: var(--green); }
+  .toast.error { border-color: var(--red); color: var(--red); }
 </style>
 </head>
 <body>
 
-<div class="login-screen" id="loginScreen">
-  <div class="login-card">
-    <div class="login-badge">CW</div>
-    <div class="login-title">Corpworks Payroll</div>
-    <div class="login-sub">Admin access only</div>
-    <div class="login-field"><div class="login-label">Username</div><input class="login-input" type="text" id="loginUser" placeholder="admin" autocomplete="username"></div>
-    <div class="login-field"><div class="login-label">Password</div><input class="login-input" type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
-    <button class="login-btn" onclick="doLogin()">Sign In</button>
-    <div class="login-error" id="loginError"></div>
+<div id="loginScreen">
+  <div class="login-wrap">
+    <div class="admin-logo">
+      <div class="cw">CW</div>
+      <div class="sub">Payroll Admin</div>
+      <div class="tag">Admin access only</div>
+    </div>
+    <div class="login-card">
+      <h2>Admin Login</h2>
+      <div class="field"><label>Username</label><input type="text" id="adminUser" placeholder="admin" autocomplete="username"></div>
+      <div class="field"><label>Password</label><input type="password" id="adminPass" placeholder="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAdminLogin()"></div>
+      <button class="btn-primary" onclick="doAdminLogin()">Login →</button>
+      <div class="err" id="adminErr">Incorrect credentials.</div>
+    </div>
   </div>
 </div>
 
-<header class="app-bar" id="appBar" style="display:none">
-  <div class="bar-top">
-    <div class="brand">
-      <div class="brand-badge">CW</div>
-      <div><div class="brand-name">Corpworks Payroll</div><div class="brand-sub">Admin Dashboard</div></div>
+<div id="adminApp">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-logo">CW</span>
+      <span class="topbar-title">Payroll Review</span>
     </div>
-    <div class="bar-right">
-      <div class="live-time" id="liveTime"></div>
-      <button class="logout-btn" onclick="doLogout()">Sign out</button>
+    <div class="topbar-actions">
+      <button class="btn-sm" onclick="loadEntries()" id="refreshBtn">↻ Refresh</button>
+      <button class="btn-sm" onclick="approveAll()">✓ Approve All Pending</button>
+      <button class="btn-export" onclick="exportSmartly()">Export Smartly CSV</button>
+      <button class="btn-sm" onclick="doAdminLogout()">Logout</button>
     </div>
-  </div>
-  <nav class="tabs">
-    <button class="tab active" onclick="showPage('review',this)">Review</button>
-    <button class="tab" onclick="showPage('approved',this)">Approved</button>
-    <button class="tab" onclick="showPage('settings',this)">Settings</button>
-  </nav>
-</header>
-
-<div class="page active" id="page-review" style="display:none">
-  <div class="summary-strip">
-    <div class="scard"><div class="scard-val yellow" id="sPending">0</div><div class="scard-lbl">Pending</div></div>
-    <div class="scard"><div class="scard-val green" id="sApproved">0</div><div class="scard-lbl">Approved</div></div>
-    <div class="scard"><div class="scard-val accent" id="sTotalHrs">0.0</div><div class="scard-lbl">Total hrs</div></div>
-    <div class="scard"><div class="scard-val orange" id="sTotalAmt">$0</div><div class="scard-lbl">Total value</div></div>
-  </div>
-  <div class="drop-zone" id="dropZone" onclick="document.getElementById('csvImport').click()">
-    ↓ Drop CSV from timesheet app here — or click to import
-    <input type="file" id="csvImport" accept=".csv" style="display:none" onchange="handleFileImport(this)">
   </div>
   <div class="filter-bar">
-    <button class="filter-pill active" onclick="setFilter('all',this)">All</button>
-    <button class="filter-pill" onclick="setFilter('pending',this)">Pending</button>
-    <button class="filter-pill" onclick="setFilter('approved',this)">Approved</button>
-    <button class="filter-pill" onclick="setFilter('queried',this)">Queried</button>
-    <input class="search-input" type="text" id="searchInput" placeholder="Search tech or week..." oninput="renderReview()">
-    <button class="export-all-btn" onclick="exportSmartly()">↓ Smartly CSV</button>
+    <select id="filterStaff" onchange="renderTable()"><option value="">All staff</option></select>
+    <select id="filterStatus" onchange="renderTable()">
+      <option value="">All status</option>
+      <option value="pending">Pending only</option>
+      <option value="approved">Approved only</option>
+    </select>
+    <input type="week" id="filterWeek" onchange="renderTable()" title="Filter by week">
+    <button class="btn-sm" onclick="clearFilters()">Clear</button>
+    <div class="stats" id="statsRow"></div>
   </div>
-  <div class="subs-wrap" id="reviewList"></div>
-</div>
-
-<div class="page" id="page-approved" style="display:none">
-  <div class="payroll-section" id="approvedList"></div>
-</div>
-
-<div class="page" id="page-settings" style="display:none">
-  <div class="settings-section">
-    <div class="setting-card">
-      <div class="setting-title">Admin Credentials</div>
-      <div class="field-label">Username</div>
-      <input class="setting-input" type="text" id="setUser" placeholder="admin">
-      <div class="field-label">New password</div>
-      <div class="pw-row">
-        <input class="setting-input" type="password" id="setPass" placeholder="Enter new password" style="margin-bottom:0">
-        <button class="pw-btn" onclick="saveCredentials()">Save</button>
-      </div>
-    </div>
-    <div class="setting-card">
-      <div class="setting-title">Technicians</div>
-      <div class="chips" id="techChips"></div>
-      <div class="add-row">
-        <input type="text" id="newTech" placeholder="Add name..." onkeydown="if(event.key==='Enter')addTech()">
-        <button onclick="addTech()">Add</button>
-      </div>
-    </div>
-    <div class="setting-card">
-      <div class="setting-title">Data</div>
-      <button class="danger-btn" onclick="clearApproved()">Clear all approved submissions</button>
-    </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th onclick="sortBy('staff')">Staff</th>
+          <th onclick="sortBy('date')">Date</th>
+          <th>Start</th>
+          <th>Finish</th>
+          <th onclick="sortBy('paid_hours')">Paid Hrs</th>
+          <th>Breaks</th>
+          <th>Job / Site</th>
+          <th>Payroll Note</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-let settings={company:'Corpworks Ltd',techs:['Glenn','Troy','Marco','Monique'],user:'admin',pass:'corpworks2026'};
-let submissions=[];
-let currentFilter='all';
+const SUPABASE_URL = 'https://baojgmrlwunizgcayhl.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJhb2pnbXJsd3VuaXpnY2F1eWhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NDYwODAsImV4cCI6MjA5NTIyMjA4MH0.XPvjOWlgWkK5YWUax47aDvMS1V6Dbf4LERqI5Yht1r8';
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'corpworks2026';
 
-function loadData(){try{const s=localStorage.getItem('cwp_settings');if(s)settings={...settings,...JSON.parse(s)};const sub=localStorage.getItem('cwp_subs');if(sub)submissions=JSON.parse(sub);}catch(e){}}
-function saveData(){localStorage.setItem('cwp_subs',JSON.stringify(submissions));}
-function saveSettings(){localStorage.setItem('cwp_settings',JSON.stringify(settings));}
+let allEntries = [];
+let sortCol = 'date';
+let sortDir = -1;
 
-function doLogin(){
-  const u=document.getElementById('loginUser').value.trim();
-  const p=document.getElementById('loginPass').value;
-  if(u===settings.user&&p===settings.pass){
+const headers = { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' };
+
+async function dbFetchAll() {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/timesheets?order=date.desc,submitted_at.desc`, { headers });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+async function dbUpdate(id, fields) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/timesheets?id=eq.${id}`, {
+    method: 'PATCH', headers: { ...headers, 'Prefer': 'return=minimal' }, body: JSON.stringify(fields)
+  });
+  if (!res.ok) throw new Error(await res.text());
+}
+
+function doAdminLogin() {
+  const u = document.getElementById('adminUser').value.trim();
+  const p = document.getElementById('adminPass').value;
+  if (u===ADMIN_USER && p===ADMIN_PASS) {
+    sessionStorage.setItem('cwadmin','1');
     document.getElementById('loginScreen').style.display='none';
-    document.getElementById('appBar').style.display='block';
-    document.querySelectorAll('.page').forEach(pg=>pg.style.display='block');
-    showPage('review',document.querySelector('.tab.active'));
-    renderAll();
-    localStorage.setItem('cwp_session','1');
-  }else{document.getElementById('loginError').textContent='Incorrect username or password.';document.getElementById('loginPass').value='';}
+    document.getElementById('adminApp').style.display='flex';
+    loadEntries();
+  } else { document.getElementById('adminErr').style.display='block'; }
 }
 
-function doLogout(){
-  localStorage.removeItem('cwp_session');
-  document.getElementById('loginScreen').style.display='flex';
-  document.getElementById('appBar').style.display='none';
-  document.querySelectorAll('.page').forEach(pg=>pg.style.display='none');
-  document.getElementById('loginUser').value='';document.getElementById('loginPass').value='';
+function doAdminLogout() { sessionStorage.removeItem('cwadmin'); location.reload(); }
+
+async function loadEntries() {
+  const btn = document.getElementById('refreshBtn');
+  btn.textContent = '↻ Loading…';
+  try {
+    allEntries = await dbFetchAll();
+    populateStaffFilter();
+    renderTable();
+    toast(`${allEntries.length} entries loaded`, 'success');
+  } catch(e) { toast('Failed to load: ' + e.message, 'error'); }
+  finally { btn.textContent = '↻ Refresh'; }
 }
 
-function showPage(name,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  if(btn)btn.classList.add('active');
-  if(name==='approved')renderApproved();
-  if(name==='settings')renderSettings();
-  if(name==='review')renderReview();
+function populateStaffFilter() {
+  const staff = [...new Set(allEntries.map(e=>e.staff||''))].sort();
+  const sel = document.getElementById('filterStaff');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">All staff</option>' + staff.map(s=>`<option${s===cur?' selected':''}>${s}</option>`).join('');
 }
 
-function setFilter(f,btn){currentFilter=f;document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));btn.classList.add('active');renderReview();}
-
-function handleFileImport(input){
-  const file=input.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{const n=importCSV(ev.target.result);showToast(n>0?'Imported '+n+' submission(s) \u2713':'No new submissions found',n>0?'ok':'err');};
-  reader.readAsText(file);input.value='';
-}
-
-function importCSV(csv){
-  const lines=csv.trim().split('\n');if(lines.length<2)return 0;
-  const groups={};
-  for(let i=1;i<lines.length;i++){
-    const cols=parseCSVLine(lines[i]);if(cols.length<5)continue;
-    const id=cols[0]&&cols[0].replace(/"/g,'');if(!id)continue;
-    if(!groups[id])groups[id]=[];
-    groups[id].push(cols);
-  }
-  let imported=0;
-  Object.entries(groups).forEach(([id,rows])=>{
-    if(submissions.find(s=>String(s.id)===String(id)))return;
-    const r=rows[0];
-    const sub={
-      id,tech:r[1]&&r[1].replace(/"/g,'')||'Unknown',
-      weekStart:r[2]&&r[2].replace(/"/g,'')||'',weekEnd:r[3]&&r[3].replace(/"/g,'')||'',
-      submittedAt:r[4]&&r[4].replace(/"/g,'')||new Date().toISOString(),
-      clockIn:r[5]&&r[5].replace(/"/g,'')||null,clockOut:r[6]&&r[6].replace(/"/g,'')||null,
-      breakMins:parseInt(r[7])||0,
-      jobs:rows.map(cols=>({desc:cols[8]&&cols[8].replace(/"/g,'')||'',hours:[9,10,11,12,13,14].map(i=>parseFloat(cols[i])||0),rate:parseFloat(cols[16])||35})),
-      status:'pending',adminNotes:'',imported:true
-    };
-    sub.totalHours=sub.jobs.reduce((t,j)=>t+j.hours.reduce((a,b)=>a+b,0),0);
-    sub.totalAmount=sub.jobs.reduce((t,j)=>t+j.hours.reduce((a,b)=>a+b,0)*j.rate,0);
-    submissions.unshift(sub);imported++;
-  });
-  saveData();renderAll();return imported;
-}
-
-function parseCSVLine(line){const result=[];let cur='';let inQ=false;for(let i=0;i<line.length;i++){if(line[i]==='"'){inQ=!inQ;}else if(line[i]===','&&!inQ){result.push(cur);cur='';}else cur+=line[i];}result.push(cur);return result;}
-
-function renderReview(){
-  updateSummary();
-  const search=document.getElementById('searchInput').value.toLowerCase();
-  let list=submissions.filter(s=>{
-    if(currentFilter!=='all'&&s.status!==currentFilter)return false;
-    if(search&&!s.tech.toLowerCase().includes(search)&&!(s.weekStart||'').includes(search))return false;
+function getFiltered() {
+  const fs = document.getElementById('filterStaff').value;
+  const fst = document.getElementById('filterStatus').value;
+  const fw = document.getElementById('filterWeek').value;
+  return allEntries.filter(e => {
+    if (fs && e.staff!==fs) return false;
+    if (fst && e.status!==fst) return false;
+    if (fw) {
+      const d = new Date((e.date||'')+'T12:00:00');
+      if (getISOWeek(d) !== parseInt((fw.split('W')[1])||0)) return false;
+      if (d.getFullYear() !== parseInt(fw.split('-W')[0]||0)) return false;
+    }
     return true;
+  }).sort((a,b)=>{
+    let av=a[sortCol]||'', bv=b[sortCol]||'';
+    if (sortCol==='paid_hours') { av=parseFloat(av)||0; bv=parseFloat(bv)||0; }
+    return av<bv ? sortDir : av>bv ? -sortDir : 0;
   });
-  const wrap=document.getElementById('reviewList');
-  if(!list.length){wrap.innerHTML='<div class="empty"><div class="empty-icon">&#128203;</div><div class="empty-text">No submissions — import a CSV from the timesheet app</div></div>';return;}
-  wrap.innerHTML=list.map(s=>{
-    const initials=s.tech.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-    const d=new Date(s.submittedAt||Date.now());
-    const dateStr=d.toLocaleDateString('en-NZ',{day:'2-digit',month:'short',year:'numeric'});
-    const timeStr=d.toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit'});
-    const jobRows=(s.jobs||[]).map((j,ji)=>{
-      const jTot=j.hours.reduce((a,b)=>a+b,0);
-      const dayCells=['M','T','W','T','F','S'].map((d,i)=>'<td style="text-align:center"><input class="edit-hrs" type="number" min="0" max="24" step="0.5" value="'+(j.hours[i]||'')+'" placeholder="-" oninput="updateHours(\''+s.id+'\','+ji+','+i+',this.value)"></td>').join('');
-      return '<tr><td style="font-size:13px;color:var(--text2);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(j.desc||'General labour')+'</td>'+dayCells+'<td style="text-align:right;font-family:var(--font-cond);font-size:16px;font-weight:800;color:var(--accent)">'+jTot.toFixed(1)+'h</td><td style="text-align:center;font-size:12px;color:var(--text2)">$'+j.rate+'</td><td style="text-align:right;font-family:var(--font-cond);font-size:16px;font-weight:800;color:var(--green)">$'+Math.round(jTot*j.rate)+'</td></tr>';
-    }).join('');
-    const approveBtn=s.status!=='approved'?'<button class="act-btn btn-approve" onclick="approveSubmission(\''+s.id+'\')">Approve</button>':'<button class="act-btn btn-unapprove" onclick="unapproveSubmission(\''+s.id+'\')">Unapprove</button>';
-    const queryBtn=s.status!=='queried'?'<button class="act-btn btn-query" onclick="querySubmission(\''+s.id+'\')">Query</button>':'';
-    return '<div class="sub-card '+s.status+'" id="sc-'+s.id+'"><div class="sub-head" onclick="toggleCard(\''+s.id+'\')"><div class="sub-head-left"><div class="tech-avatar" style="background:'+techColor(s.tech)+'">'+initials+'</div><div class="sub-info"><div class="sub-tech">'+s.tech+'</div><div class="sub-week">Week '+formatDate(s.weekStart)+' \u2013 '+formatDate(s.weekEnd)+' &nbsp;&middot;&nbsp; Submitted '+dateStr+' '+timeStr+'</div></div></div><div class="sub-head-right"><span class="status-badge badge-'+s.status+'">'+s.status+'</span><span class="chevron">\u25be</span></div></div><div class="sub-body"><div class="sub-stats"><div class="sub-stat"><div class="sub-stat-val">'+(s.totalHours||0).toFixed(1)+'</div><div class="sub-stat-lbl">Hours</div></div><div class="sub-stat"><div class="sub-stat-val green">$'+Math.round(s.totalAmount||0).toLocaleString()+'</div><div class="sub-stat-lbl">Amount</div></div><div class="sub-stat"><div class="sub-stat-val yellow">'+(s.breakMins||0)+'m</div><div class="sub-stat-lbl">Breaks</div></div><div class="sub-stat"><div class="sub-stat-val">'+(s.jobs||[]).length+'</div><div class="sub-stat-lbl">Jobs</div></div></div>'+(s.clockIn?'<div class="clock-row"><div class="clock-item">In: <span>'+s.clockIn+'</span></div><div class="clock-item">Out: <span>'+(s.clockOut||'--:--')+'</span></div><div class="clock-item">Breaks: <span>'+(s.breakMins||0)+' min</span></div></div>':'')+'<table class="jobs-table"><thead><tr><th>Job / Description</th><th style="text-align:center">Mon</th><th style="text-align:center">Tue</th><th style="text-align:center">Wed</th><th style="text-align:center">Thu</th><th style="text-align:center">Fri</th><th style="text-align:center">Sat</th><th style="text-align:right">Total</th><th style="text-align:center">Rate</th><th style="text-align:right">Amt</th></tr></thead><tbody>'+jobRows+'</tbody></table><div class="field-label">Admin notes</div><textarea class="admin-notes" placeholder="Payroll comments, queries, adjustments..." oninput="updateNotes(\''+s.id+'\',this.value)">'+(s.adminNotes||'')+'</textarea><div class="action-row">'+approveBtn+queryBtn+'<button class="act-btn btn-secondary" onclick="exportOne(\''+s.id+'\')">CSV</button><button class="act-btn btn-danger" onclick="deleteSubmission(\''+s.id+'\')">Delete</button></div></div></div>';
-  }).join('');
 }
 
-function toggleCard(id){const c=document.getElementById('sc-'+id);c.classList.toggle('open');}
-function updateHours(id,ji,di,val){const s=submissions.find(s=>String(s.id)===String(id));if(!s)return;s.jobs[ji].hours[di]=parseFloat(val)||0;recalc(s);saveData();updateSummary();}
-function updateNotes(id,val){const s=submissions.find(s=>String(s.id)===String(id));if(!s)return;s.adminNotes=val;saveData();}
-function recalc(s){s.totalHours=s.jobs.reduce((t,j)=>t+j.hours.reduce((a,b)=>a+b,0),0);s.totalAmount=s.jobs.reduce((t,j)=>t+j.hours.reduce((a,b)=>a+b,0)*j.rate,0);}
-function approveSubmission(id){const s=submissions.find(s=>String(s.id)===String(id));if(!s)return;s.status='approved';s.approvedAt=new Date().toISOString();saveData();renderReview();showToast('Approved \u2713','ok');}
-function unapproveSubmission(id){const s=submissions.find(s=>String(s.id)===String(id));if(!s)return;s.status='pending';delete s.approvedAt;saveData();renderReview();showToast('Moved back to pending');}
-function querySubmission(id){const s=submissions.find(s=>String(s.id)===String(id));if(!s)return;s.status='queried';saveData();renderReview();showToast('Marked as queried');}
-function deleteSubmission(id){if(!confirm('Delete this submission?'))return;submissions=submissions.filter(s=>String(s.id)!==String(id));saveData();renderReview();showToast('Deleted');}
-function updateSummary(){
-  const p=submissions.filter(s=>s.status==='pending').length;
-  const a=submissions.filter(s=>s.status==='approved').length;
-  const h=submissions.reduce((t,s)=>t+(s.totalHours||0),0);
-  const m=submissions.reduce((t,s)=>t+(s.totalAmount||0),0);
-  document.getElementById('sPending').textContent=p;document.getElementById('sApproved').textContent=a;document.getElementById('sTotalHrs').textContent=h.toFixed(1);document.getElementById('sTotalAmt').textContent='$'+Math.round(m).toLocaleString();
+function renderTable() {
+  const filtered = getFiltered();
+  const pending = filtered.filter(e=>e.status==='pending');
+  const totalHrs = filtered.reduce((s,e)=>s+(parseFloat(e.paid_hours)||0),0);
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat">Showing <b>${filtered.length}</b></div>
+    <div class="stat">Pending <b>${pending.length}</b></div>
+    <div class="stat">Total paid hrs <b>${totalHrs.toFixed(1)}</b></div>
+  `;
+  const body = document.getElementById('tableBody');
+  if (!filtered.length) { body.innerHTML='<tr class="empty-row"><td colspan="10">No entries. Staff submit from their phones — hit Refresh to check.</td></tr>'; return; }
+  body.innerHTML = filtered.map(e=>`
+    <tr data-id="${e.id}">
+      <td class="td-staff">${e.staff||'—'}</td>
+      <td>${fmtDate(e.date)}</td>
+      <td>${e.start_time||'—'}</td>
+      <td>${e.end_time||'—'}</td>
+      <td class="td-hours"><input type="number" step="0.5" min="0" max="24" value="${e.paid_hours||0}" onchange="updateField(${e.id},'paid_hours',+this.value)"></td>
+      <td style="font-size:0.78rem;color:var(--muted);">☕${e.morning_break||10}m · 🥪${e.lunch_break||30}m · 🍵${e.afternoon_break||10}m</td>
+      <td style="font-size:0.85rem;">${e.job||'—'}</td>
+      <td class="td-note"><input type="text" placeholder="add note…" value="${e.payroll_note||''}" onchange="updateField(${e.id},'payroll_note',this.value)"></td>
+      <td><span class="badge badge-${e.status}">${e.status}</span></td>
+      <td>
+        ${e.status==='pending'
+          ? `<button class="btn-approve" onclick="approve(${e.id})">✓ Approve</button>`
+          : `<button class="btn-undo" onclick="unapprove(${e.id})">Undo</button>`}
+      </td>
+    </tr>
+  `).join('');
 }
 
-function renderApproved(){
-  const approved=submissions.filter(s=>s.status==='approved');
-  const wrap=document.getElementById('approvedList');
-  if(!approved.length){wrap.innerHTML='<div class="empty"><div class="empty-icon">&#9989;</div><div class="empty-text">No approved timesheets yet</div></div>';return;}
-  const byWeek={};approved.forEach(s=>{const k=s.weekStart||'Unknown';if(!byWeek[k])byWeek[k]=[];byWeek[k].push(s);});
-  wrap.innerHTML='<div class="smartly-note"><strong>Smartly:</strong> Click export below, then in Smartly go to <strong>Payroll &rarr; Import &rarr; Timesheets</strong> and upload the CSV file.</div><button class="export-all-btn" onclick="exportSmartly()" style="margin-bottom:20px;padding:12px 24px;font-size:15px;border-radius:12px">\u2193 Export Approved to Smartly CSV</button>'+Object.entries(byWeek).sort((a,b)=>b[0].localeCompare(a[0])).map(([week,subs])=>'<div class="payroll-week"><div class="payroll-week-title">Week of '+formatDate(week)+'</div>'+subs.map(s=>'<div class="payroll-row"><div><div class="payroll-tech">'+s.tech+'</div><div class="payroll-meta">Approved '+(s.approvedAt?new Date(s.approvedAt).toLocaleDateString('en-NZ',{day:'2-digit',month:'short'}):'--')+' &middot; '+(s.jobs||[]).length+' jobs</div></div><div style="display:flex;gap:20px;align-items:center"><div class="payroll-hrs">'+(s.totalHours||0).toFixed(1)+'h</div><div class="payroll-amt">$'+Math.round(s.totalAmount||0).toLocaleString()+'</div></div></div>').join('')+'</div>').join('');
+function fmtDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso+'T12:00:00').toLocaleDateString('en-NZ',{weekday:'short',day:'numeric',month:'short'});
 }
 
-function exportOne(id){const s=submissions.find(s=>String(s.id)===String(id));if(!s)return;dl(buildCSV([s]),'timesheet-'+s.tech.replace(/\s+/g,'-').toLowerCase()+'-'+s.weekStart+'.csv','text/csv');showToast('CSV downloaded','ok');}
-function exportSmartly(){
-  const approved=submissions.filter(s=>s.status==='approved');
-  if(!approved.length){showToast('No approved timesheets','err');return;}
-  const rows=[['Employee Name','Week Start','Week End','Description','Hours','Rate ($/hr)','Amount (NZD)','Admin Notes','Clock In','Clock Out','Break (min)']];
-  approved.forEach(s=>s.jobs.forEach(j=>{const h=j.hours.reduce((a,b)=>a+b,0);if(h===0)return;rows.push([s.tech,s.weekStart,s.weekEnd,j.desc||'General Labour',h.toFixed(2),j.rate.toFixed(2),(h*j.rate).toFixed(2),s.adminNotes||'',s.clockIn||'',s.clockOut||'',s.breakMins||0]);}));
-  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
-  dl(csv,'corpworks-smartly-payroll-'+new Date().toISOString().split('T')[0]+'.csv','text/csv');
-  showToast('Exported '+approved.length+' timesheet(s)','ok');
+function sortBy(col) { sortCol===col ? sortDir*=-1 : (sortCol=col, sortDir=1); renderTable(); }
+function clearFilters() { document.getElementById('filterStaff').value=''; document.getElementById('filterStatus').value=''; document.getElementById('filterWeek').value=''; renderTable(); }
+
+async function updateField(id, field, value) {
+  const entry = allEntries.find(e=>e.id==id);
+  if (entry) entry[field] = value;
+  try { await dbUpdate(id, {[field]: value}); } catch(e) { toast('Save failed: '+e.message, 'error'); }
 }
-function buildCSV(subs){const rows=[['ID','Tech','Week Start','Week End','Submitted','Clock In','Clock Out','Break (min)','Description','Mon','Tue','Wed','Thu','Fri','Sat','Total Hours','Rate','Amount']];subs.forEach(s=>s.jobs.forEach(j=>{const h=j.hours.reduce((a,b)=>a+b,0);rows.push([s.id,s.tech,s.weekStart,s.weekEnd,s.submittedAt,s.clockIn||'',s.clockOut||'',s.breakMins||0,j.desc,...j.hours,h.toFixed(1),j.rate,(h*j.rate).toFixed(2)]);}));return rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');}
-function dl(content,name,type){const b=new Blob([content],{type});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();URL.revokeObjectURL(a.href);}
 
-function renderSettings(){document.getElementById('setUser').value=settings.user;renderChips();}
-function renderChips(){document.getElementById('techChips').innerHTML=settings.techs.map(t=>'<div class="chip">'+t+'<button onclick="removeTech(\''+t+'\')">x</button></div>').join('');}
-function addTech(){const inp=document.getElementById('newTech');const n=inp.value.trim();if(!n)return;if(settings.techs.includes(n)){showToast('Already in list','err');return;}settings.techs.push(n);inp.value='';saveSettings();renderChips();}
-function removeTech(n){settings.techs=settings.techs.filter(t=>t!==n);saveSettings();renderChips();}
-function saveCredentials(){const u=document.getElementById('setUser').value.trim();const p=document.getElementById('setPass').value;if(u)settings.user=u;if(p)settings.pass=p;saveSettings();showToast('Credentials saved \u2713','ok');}
-function clearApproved(){if(!confirm('Remove all approved?'))return;submissions=submissions.filter(s=>s.status!=='approved');saveData();renderApproved();renderReview();showToast('Cleared');}
-function formatDate(str){if(!str)return '--';const d=new Date(str+'T00:00:00');return d.toLocaleDateString('en-NZ',{day:'2-digit',month:'short',year:'numeric'});}
-function techColor(name){const colors=['#4f46e5','#0891b2','#059669','#d97706','#dc2626','#7c3aed','#db2777'];let h=0;for(let i=0;i<name.length;i++)h=(h*31+name.charCodeAt(i))%1000;return colors[Math.abs(h)%colors.length];}
-function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(type?' '+type:'');setTimeout(()=>t.classList.remove('show'),2500);}
-function renderAll(){renderReview();updateSummary();}
+async function approve(id) {
+  const entry = allEntries.find(e=>e.id==id);
+  if (!entry) return;
+  const updates = { status:'approved', approved_at: new Date().toISOString() };
+  try { await dbUpdate(id, updates); Object.assign(entry, updates); renderTable(); toast('Approved ✓','success'); }
+  catch(e) { toast('Error: '+e.message,'error'); }
+}
 
-// Drag and drop CSV
-const dz=document.getElementById('dropZone');
-dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
-dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
-dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');const file=e.dataTransfer.files[0];if(!file||!file.name.endsWith('.csv')){showToast('Drop a CSV file from the timesheet app','err');return;}const reader=new FileReader();reader.onload=ev=>{const n=importCSV(ev.target.result);showToast(n>0?'Imported '+n+' submission(s) \u2713':'No new submissions found',n>0?'ok':'err');};reader.readAsText(file);});
+async function unapprove(id) {
+  const entry = allEntries.find(e=>e.id==id);
+  if (!entry) return;
+  try { await dbUpdate(id, { status:'pending', approved_at: null }); entry.status='pending'; entry.approved_at=null; renderTable(); }
+  catch(e) { toast('Error: '+e.message,'error'); }
+}
 
-setInterval(()=>{const d=new Date();document.getElementById('liveTime').textContent=d.toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit',hour12:true});},1000);
+async function approveAll() {
+  const pending = getFiltered().filter(e=>e.status==='pending');
+  if (!pending.length) { toast('No pending entries','error'); return; }
+  if (!confirm(`Approve all ${pending.length} pending entries?`)) return;
+  const now = new Date().toISOString();
+  for (const e of pending) {
+    try { await dbUpdate(e.id, {status:'approved',approved_at:now}); e.status='approved'; e.approved_at=now; } catch{}
+  }
+  renderTable();
+  toast(`Approved ${pending.length} entries ✓`,'success');
+}
 
-loadData();
-if(localStorage.getItem('cwp_session')){document.getElementById('loginScreen').style.display='none';document.getElementById('appBar').style.display='block';document.querySelectorAll('.page').forEach(pg=>pg.style.display='block');showPage('review',document.querySelector('.tab'));renderAll();}
+function exportSmartly() {
+  const approved = allEntries.filter(e=>e.status==='approved');
+  if (!approved.length) { toast('No approved entries to export','error'); return; }
+  const rows = [['Employee Name','Date','Start Time','End Time','Ordinary Hours','Notes']];
+  approved.forEach(e=>{ rows.push([e.staff||'', e.date||'', e.start_time||'', e.end_time||'', e.paid_hours||'', [e.job, e.payroll_note, e.notes].filter(Boolean).join(' | ')]); });
+  const csv = rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url;
+  a.download=`smartly_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  toast(`Exported ${approved.length} entries ✓`,'success');
+}
+
+function getISOWeek(d) {
+  const jan4 = new Date(d.getFullYear(),0,4);
+  return Math.ceil(((d-jan4)/86400000+jan4.getDay()+1)/7);
+}
+
+function toast(msg,type='') {
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='toast show'+(type?' '+type:'');
+  setTimeout(()=>el.className='toast',3000);
+}
+
+window.onload = () => {
+  if (sessionStorage.getItem('cwadmin')) {
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminApp').style.display='flex';
+    loadEntries();
+  }
+};
 </script>
 </body>
 </html>
