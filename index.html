@@ -16,6 +16,7 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; }
+
   #loginScreen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
   .login-wrap { width: 100%; max-width: 400px; }
   .admin-logo { margin-bottom: 2.5rem; }
@@ -31,6 +32,7 @@
   .btn-primary { width: 100%; background: var(--orange); color: #fff; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; padding: 0.85rem; cursor: pointer; transition: opacity 0.2s; }
   .btn-primary:hover { opacity: 0.9; }
   .err { color: var(--red); font-size: 0.85rem; margin-top: 0.75rem; display: none; }
+
   #adminApp { display: none; flex-direction: column; min-height: 100vh; }
   .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
   .topbar-left { display: flex; align-items: center; gap: 0.75rem; }
@@ -41,12 +43,14 @@
   .btn-sm:hover { border-color: var(--orange); color: var(--orange); }
   .btn-export { background: var(--orange); border: none; color: #fff; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 700; padding: 0.45rem 1.25rem; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; }
   .btn-export:hover { opacity: 0.85; }
+
   .filter-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.75rem 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
   .filter-bar select, .filter-bar input[type=week] { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; padding: 0.4rem 0.75rem; outline: none; }
   .filter-bar select option { background: var(--surface2); }
   .stats { display: flex; gap: 1.25rem; margin-left: auto; flex-wrap: wrap; }
   .stat { font-size: 0.8rem; color: var(--muted); white-space: nowrap; }
   .stat b { font-family: 'Space Mono', monospace; color: var(--orange); }
+
   .table-wrap { flex: 1; overflow-x: auto; padding: 1.25rem 1.5rem; }
   table { width: 100%; border-collapse: collapse; min-width: 900px; }
   thead th { text-align: left; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; white-space: nowrap; }
@@ -60,17 +64,23 @@
   .td-note input { background: var(--surface2); border: 1px solid transparent; border-radius: 4px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; padding: 0.25rem 0.5rem; width: 170px; outline: none; }
   .td-note input:focus { border-color: var(--orange); }
   .badge { display: inline-block; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; padding: 0.2rem 0.55rem; border-radius: 4px; font-weight: 700; }
-  .badge-pending { background: rgba(251,191,36,0.12); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
+  .badge-pending  { background: rgba(251,191,36,0.12); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
   .badge-approved { background: rgba(74,222,128,0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.3); }
   .btn-approve { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); color: var(--green); border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.75rem; cursor: pointer; transition: all 0.15s; }
   .btn-approve:hover { background: rgba(74,222,128,0.2); }
   .btn-undo { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; font-size: 0.7rem; padding: 0.3rem 0.6rem; cursor: pointer; font-family: 'DM Sans', sans-serif; }
   .btn-undo:hover { border-color: var(--red); color: var(--red); }
   .empty-row td { text-align: center; color: var(--muted); padding: 3rem; }
+  .loading-row td { text-align: center; color: var(--muted); padding: 2rem; font-size: 0.85rem; }
+
   .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1.25rem; font-size: 0.9rem; opacity: 0; transition: all 0.3s; z-index: 100; pointer-events: none; }
   .toast.show { opacity: 1; }
   .toast.success { border-color: var(--green); color: var(--green); }
   .toast.error { border-color: var(--red); color: var(--red); }
+
+  .refresh-btn { animation: none; }
+  .refresh-btn.spinning { animation: spin 1s linear infinite; display: inline-block; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -105,6 +115,7 @@
       <button class="btn-sm" onclick="doAdminLogout()">Logout</button>
     </div>
   </div>
+
   <div class="filter-bar">
     <select id="filterStaff" onchange="renderTable()"><option value="">All staff</option></select>
     <select id="filterStatus" onchange="renderTable()">
@@ -116,6 +127,7 @@
     <button class="btn-sm" onclick="clearFilters()">Clear</button>
     <div class="stats" id="statsRow"></div>
   </div>
+
   <div class="table-wrap">
     <table>
       <thead>
@@ -140,7 +152,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const SUPABASE_URL = 'https://baojgmrlwunizgcayhl.supabase.co';
+const SUPABASE_URL = 'https://baojgmrlwunizgcauyhl.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJhb2pnbXJsd3VuaXpnY2F1eWhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NDYwODAsImV4cCI6MjA5NTIyMjA4MH0.XPvjOWlgWkK5YWUax47aDvMS1V6Dbf4LERqI5Yht1r8';
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = 'corpworks2026';
@@ -149,7 +161,12 @@ let allEntries = [];
 let sortCol = 'date';
 let sortDir = -1;
 
-const headers = { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' };
+// ── SUPABASE ──
+const headers = {
+  'apikey': SUPABASE_KEY,
+  'Authorization': `Bearer ${SUPABASE_KEY}`,
+  'Content-Type': 'application/json'
+};
 
 async function dbFetchAll() {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/timesheets?order=date.desc,submitted_at.desc`, { headers });
@@ -159,11 +176,14 @@ async function dbFetchAll() {
 
 async function dbUpdate(id, fields) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/timesheets?id=eq.${id}`, {
-    method: 'PATCH', headers: { ...headers, 'Prefer': 'return=minimal' }, body: JSON.stringify(fields)
+    method: 'PATCH',
+    headers: { ...headers, 'Prefer': 'return=minimal' },
+    body: JSON.stringify(fields)
   });
   if (!res.ok) throw new Error(await res.text());
 }
 
+// ── AUTH ──
 function doAdminLogin() {
   const u = document.getElementById('adminUser').value.trim();
   const p = document.getElementById('adminPass').value;
@@ -172,11 +192,17 @@ function doAdminLogin() {
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('adminApp').style.display='flex';
     loadEntries();
-  } else { document.getElementById('adminErr').style.display='block'; }
+  } else {
+    document.getElementById('adminErr').style.display='block';
+  }
 }
 
-function doAdminLogout() { sessionStorage.removeItem('cwadmin'); location.reload(); }
+function doAdminLogout() {
+  sessionStorage.removeItem('cwadmin');
+  location.reload();
+}
 
+// ── LOAD ──
 async function loadEntries() {
   const btn = document.getElementById('refreshBtn');
   btn.textContent = '↻ Loading…';
@@ -185,8 +211,11 @@ async function loadEntries() {
     populateStaffFilter();
     renderTable();
     toast(`${allEntries.length} entries loaded`, 'success');
-  } catch(e) { toast('Failed to load: ' + e.message, 'error'); }
-  finally { btn.textContent = '↻ Refresh'; }
+  } catch(e) {
+    toast('Failed to load: ' + e.message, 'error');
+  } finally {
+    btn.textContent = '↻ Refresh';
+  }
 }
 
 function populateStaffFilter() {
@@ -196,10 +225,11 @@ function populateStaffFilter() {
   sel.innerHTML = '<option value="">All staff</option>' + staff.map(s=>`<option${s===cur?' selected':''}>${s}</option>`).join('');
 }
 
+// ── FILTER + SORT ──
 function getFiltered() {
-  const fs = document.getElementById('filterStaff').value;
+  const fs  = document.getElementById('filterStaff').value;
   const fst = document.getElementById('filterStatus').value;
-  const fw = document.getElementById('filterWeek').value;
+  const fw  = document.getElementById('filterWeek').value;
   return allEntries.filter(e => {
     if (fs && e.staff!==fs) return false;
     if (fst && e.status!==fst) return false;
@@ -218,15 +248,19 @@ function getFiltered() {
 
 function renderTable() {
   const filtered = getFiltered();
-  const pending = filtered.filter(e=>e.status==='pending');
+  const pending  = filtered.filter(e=>e.status==='pending');
   const totalHrs = filtered.reduce((s,e)=>s+(parseFloat(e.paid_hours)||0),0);
   document.getElementById('statsRow').innerHTML = `
     <div class="stat">Showing <b>${filtered.length}</b></div>
     <div class="stat">Pending <b>${pending.length}</b></div>
     <div class="stat">Total paid hrs <b>${totalHrs.toFixed(1)}</b></div>
   `;
+
   const body = document.getElementById('tableBody');
-  if (!filtered.length) { body.innerHTML='<tr class="empty-row"><td colspan="10">No entries. Staff submit from their phones — hit Refresh to check.</td></tr>'; return; }
+  if (!filtered.length) {
+    body.innerHTML='<tr class="empty-row"><td colspan="10">No entries. Staff submit from their phones — hit Refresh to check.</td></tr>';
+    return;
+  }
   body.innerHTML = filtered.map(e=>`
     <tr data-id="${e.id}">
       <td class="td-staff">${e.staff||'—'}</td>
@@ -252,33 +286,55 @@ function fmtDate(iso) {
   return new Date(iso+'T12:00:00').toLocaleDateString('en-NZ',{weekday:'short',day:'numeric',month:'short'});
 }
 
-function sortBy(col) { sortCol===col ? sortDir*=-1 : (sortCol=col, sortDir=1); renderTable(); }
-function clearFilters() { document.getElementById('filterStaff').value=''; document.getElementById('filterStatus').value=''; document.getElementById('filterWeek').value=''; renderTable(); }
+function sortBy(col) {
+  sortCol===col ? sortDir*=-1 : (sortCol=col, sortDir=1);
+  renderTable();
+}
 
+function clearFilters() {
+  document.getElementById('filterStaff').value='';
+  document.getElementById('filterStatus').value='';
+  document.getElementById('filterWeek').value='';
+  renderTable();
+}
+
+// ── EDIT FIELDS ──
 async function updateField(id, field, value) {
   const entry = allEntries.find(e=>e.id==id);
   if (entry) entry[field] = value;
-  try { await dbUpdate(id, {[field]: value}); } catch(e) { toast('Save failed: '+e.message, 'error'); }
+  try {
+    await dbUpdate(id, {[field]: value});
+  } catch(e) {
+    toast('Save failed: '+e.message, 'error');
+  }
 }
 
+// ── APPROVE ──
 async function approve(id) {
   const entry = allEntries.find(e=>e.id==id);
   if (!entry) return;
   const updates = { status:'approved', approved_at: new Date().toISOString() };
-  try { await dbUpdate(id, updates); Object.assign(entry, updates); renderTable(); toast('Approved ✓','success'); }
-  catch(e) { toast('Error: '+e.message,'error'); }
+  try {
+    await dbUpdate(id, updates);
+    Object.assign(entry, updates);
+    renderTable();
+    toast('Approved ✓','success');
+  } catch(e) { toast('Error: '+e.message,'error'); }
 }
 
 async function unapprove(id) {
   const entry = allEntries.find(e=>e.id==id);
   if (!entry) return;
-  try { await dbUpdate(id, { status:'pending', approved_at: null }); entry.status='pending'; entry.approved_at=null; renderTable(); }
-  catch(e) { toast('Error: '+e.message,'error'); }
+  try {
+    await dbUpdate(id, { status:'pending', approved_at: null });
+    entry.status='pending'; entry.approved_at=null;
+    renderTable();
+  } catch(e) { toast('Error: '+e.message,'error'); }
 }
 
 async function approveAll() {
   const pending = getFiltered().filter(e=>e.status==='pending');
-  if (!pending.length) { toast('No pending entries','error'); return; }
+  if (!pending.length) { toast('No pending entries in current view','error'); return; }
   if (!confirm(`Approve all ${pending.length} pending entries?`)) return;
   const now = new Date().toISOString();
   for (const e of pending) {
@@ -288,18 +344,28 @@ async function approveAll() {
   toast(`Approved ${pending.length} entries ✓`,'success');
 }
 
+// ── SMARTLY EXPORT ──
 function exportSmartly() {
   const approved = allEntries.filter(e=>e.status==='approved');
   if (!approved.length) { toast('No approved entries to export','error'); return; }
   const rows = [['Employee Name','Date','Start Time','End Time','Ordinary Hours','Notes']];
-  approved.forEach(e=>{ rows.push([e.staff||'', e.date||'', e.start_time||'', e.end_time||'', e.paid_hours||'', [e.job, e.payroll_note, e.notes].filter(Boolean).join(' | ')]); });
+  approved.forEach(e=>{
+    rows.push([
+      e.staff||'',
+      e.date||'',
+      e.start_time||'',
+      e.end_time||'',
+      e.paid_hours||'',
+      [e.job, e.payroll_note, e.notes].filter(Boolean).join(' | ')
+    ]);
+  });
   const csv = rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
   const blob = new Blob([csv],{type:'text/csv'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a'); a.href=url;
   a.download=`smartly_${new Date().toISOString().split('T')[0]}.csv`;
   a.click(); URL.revokeObjectURL(url);
-  toast(`Exported ${approved.length} entries ✓`,'success');
+  toast(`Exported ${approved.length} approved entries ✓`,'success');
 }
 
 function getISOWeek(d) {
