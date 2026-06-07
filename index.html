@@ -3,34 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0f2540">
+<meta name="theme-color" content="#0d0d0d">
 <title>CW Payroll Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f2540; --surface: #162d4e; --surface2: #1c3660; --border: #243f66;
-    --orange: #E07B3C; --orange-dim: rgba(224,123,60,0.12);
-    --text: #e8f0f8; --muted: #7a99bb;
-    --green: #4ade80; --red: #f87171; --yellow: #fbbf24; --blue: #60a5fa;
+    --bg: #0d0d0d; --surface: #141414; --surface2: #1a1a1a; --border: #2a2a2a;
+    --orange: #FFD000; --orange-dim: rgba(255,208,0,0.1);
+    --text: #f0f0f0; --muted: #888;
+    --green: #4ade80; --red: #f87171; --yellow: #FFD000; --blue: #60a5fa;
+    --heading: 'Bebas Neue', sans-serif;
+    --font: 'Inter', sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); }
 
   /* ── LOGIN ── */
   #loginScreen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
   .login-wrap { width: 100%; max-width: 400px; }
   .admin-logo { margin-bottom: 2.5rem; }
-  .admin-logo .cw { font-family: 'Space Mono', monospace; font-size: 2.5rem; font-weight: 700; color: var(--orange); }
-  .admin-logo .sub { font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); margin-top: 0.25rem; }
+  .admin-logo .cw { font-family: var(--heading); font-size: 3.5rem; color: var(--orange); letter-spacing: 2px; line-height: 1; }
+  .admin-logo .sub { font-family: var(--heading); font-size: 1.1rem; letter-spacing: 6px; text-transform: uppercase; color: var(--muted); margin-top: 0.25rem; }
   .admin-logo .tag { display: inline-block; background: var(--orange-dim); border: 1px solid var(--orange); color: var(--orange); font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 4px; margin-top: 0.5rem; }
-  .login-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; }
-  .login-card h2 { font-size: 1.1rem; margin-bottom: 1.5rem; }
+  .login-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 2rem; }
+  .login-card h2 { font-family: var(--heading); font-size: 1.8rem; letter-spacing: 1px; font-weight: 400; margin-bottom: 1.5rem; }
   .field { margin-bottom: 1rem; }
   .field label { display: block; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
-  .field input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 1rem; padding: 0.75rem 1rem; outline: none; transition: border-color 0.2s; }
+  .field input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font-family: var(--font); font-size: 1rem; padding: 0.75rem 1rem; outline: none; transition: border-color 0.2s; }
   .field input:focus { border-color: var(--orange); }
-  .btn-primary { width: 100%; background: var(--orange); color: #fff; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; padding: 0.85rem; cursor: pointer; transition: opacity 0.2s; }
+  .btn-primary { width: 100%; background: var(--orange); color: #0d0d0d; border: none; border-radius: 4px; font-family: var(--heading); font-size: 1.2rem; letter-spacing: 1px; padding: 0.85rem; cursor: pointer; transition: opacity 0.2s; }
   .btn-primary:hover { opacity: 0.9; }
   .err { color: var(--red); font-size: 0.85rem; margin-top: 0.75rem; display: none; }
 
@@ -38,34 +40,34 @@
   #adminApp { display: none; flex-direction: column; min-height: 100vh; }
   .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
   .topbar-left { display: flex; align-items: center; gap: 0.75rem; }
-  .topbar-logo { font-family: 'Space Mono', monospace; font-weight: 700; color: var(--orange); font-size: 1.1rem; }
-  .topbar-title { font-size: 0.85rem; color: var(--muted); }
+  .topbar-logo { font-family: var(--heading); color: var(--orange); font-size: 1.6rem; letter-spacing: 2px; }
+  .topbar-title { font-family: var(--heading); font-size: 1rem; letter-spacing: 2px; color: var(--muted); }
   .topbar-actions { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
-  .btn-sm { background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; padding: 0.45rem 1rem; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .btn-sm { background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 4px; font-family: var(--font); font-size: 0.8rem; font-weight: 500; padding: 0.45rem 1rem; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
   .btn-sm:hover { border-color: var(--orange); color: var(--orange); }
-  .btn-export { background: var(--orange); border: none; color: #fff; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 700; padding: 0.45rem 1.25rem; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; }
+  .btn-export { background: var(--orange); border: none; color: #0d0d0d; border-radius: 4px; font-family: var(--heading); font-size: 1rem; letter-spacing: 1px; padding: 0.45rem 1.25rem; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; }
   .btn-export:hover { opacity: 0.85; }
 
   /* ── FILTER BAR ── */
   .filter-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.75rem 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
-  .filter-bar select, .filter-bar input[type=week] { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; padding: 0.4rem 0.75rem; outline: none; color-scheme: dark; }
+  .filter-bar select, .filter-bar input[type=week] { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font-family: var(--font); font-size: 0.85rem; padding: 0.4rem 0.75rem; outline: none; color-scheme: dark; }
   .filter-bar select option { background: var(--surface2); }
 
   /* ── STATS BAR ── */
   .stats { display: flex; gap: 1.25rem; margin-left: auto; flex-wrap: wrap; align-items: center; }
   .stat { font-size: 0.8rem; color: var(--muted); white-space: nowrap; }
-  .stat b { font-family: 'Space Mono', monospace; color: var(--orange); }
+  .stat b { font-family: var(--heading); font-size: 1rem; letter-spacing: 1px; color: var(--orange); }
   .stat-divider { width: 1px; height: 18px; background: var(--border); }
   .stat-deducted b { color: var(--red); }
 
   /* ── TABLE ── */
   .table-wrap { flex: 1; overflow-x: auto; padding: 1.25rem 1.5rem; }
   table { width: 100%; border-collapse: collapse; min-width: 1100px; }
-  thead th { text-align: left; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; white-space: nowrap; }
-  thead th:hover { color: var(--text); }
-  tbody tr { border-bottom: 1px solid rgba(36,63,102,0.5); transition: background 0.15s; }
+  thead th { text-align: left; font-family: var(--heading); font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; white-space: nowrap; }
+  thead th:hover { color: var(--orange); }
+  tbody tr { border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.15s; }
   tbody tr:hover { background: var(--surface); }
-  tbody tr.saved-flash { background: rgba(224,123,60,0.1) !important; }
+  tbody tr.saved-flash { background: rgba(255,208,0,0.08) !important; }
   td { padding: 0.75rem 0.75rem; font-size: 0.88rem; vertical-align: middle; }
 
   /* Staff cell */
@@ -73,13 +75,13 @@
   .td-staff .submitted-at { font-size: 0.68rem; color: var(--muted); font-weight: 400; margin-top: 2px; }
 
   /* Editable inputs */
-  .td-hours input { font-family: 'Space Mono', monospace; font-weight: 700; color: var(--orange); background: var(--surface2); border: 1px solid transparent; border-radius: 4px; width: 65px; padding: 0.25rem 0.4rem; font-size: 0.88rem; outline: none; }
+  .td-hours input { font-family: var(--heading); font-size: 1.1rem; letter-spacing: 1px; color: var(--orange); background: var(--surface2); border: 1px solid transparent; border-radius: 4px; width: 65px; padding: 0.25rem 0.4rem; outline: none; }
   .td-hours input:focus { border-color: var(--orange); }
-  .td-note input { background: var(--surface2); border: 1px solid transparent; border-radius: 4px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; padding: 0.25rem 0.5rem; width: 150px; outline: none; }
+  .td-note input { background: var(--surface2); border: 1px solid transparent; border-radius: 4px; color: var(--text); font-family: var(--font); font-size: 0.82rem; padding: 0.25rem 0.5rem; width: 150px; outline: none; }
   .td-note input:focus { border-color: var(--orange); }
   .td-date input[type=date], .td-time input[type=time] {
     background: var(--surface2); border: 1px solid transparent; border-radius: 4px;
-    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    color: var(--text); font-family: var(--font); font-size: 0.82rem;
     padding: 0.25rem 0.4rem; outline: none; color-scheme: dark; cursor: pointer;
   }
   .td-date input[type=date] { width: 130px; }
@@ -90,7 +92,7 @@
   /* Breaks cell */
   .td-breaks { font-size: 0.78rem; color: var(--muted); }
   .td-breaks .break-math { font-size: 0.7rem; margin-top: 4px; color: var(--muted); }
-  .td-breaks .break-math .paid { color: var(--orange); font-weight: 600; font-family: 'Space Mono', monospace; }
+  .td-breaks .break-math .paid { color: var(--orange); font-family: var(--heading); font-size: 0.9rem; letter-spacing: 1px; }
 
   /* Staff notes cell */
   .td-staff-notes { font-size: 0.8rem; color: var(--muted); font-style: italic; max-width: 160px; }
@@ -101,11 +103,11 @@
   .badge-approved { background: rgba(74,222,128,0.1);  color: var(--green);  border: 1px solid rgba(74,222,128,0.3); }
 
   /* Action buttons */
-  .btn-approve { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); color: var(--green); border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.75rem; cursor: pointer; transition: all 0.15s; }
+  .btn-approve { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); color: var(--green); border-radius: 4px; font-family: var(--heading); font-size: 0.9rem; letter-spacing: 1px; padding: 0.3rem 0.75rem; cursor: pointer; transition: all 0.15s; }
   .btn-approve:hover { background: rgba(74,222,128,0.2); }
-  .btn-undo { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; font-size: 0.7rem; padding: 0.3rem 0.6rem; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .btn-undo { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 4px; font-size: 0.75rem; padding: 0.3rem 0.6rem; cursor: pointer; font-family: var(--font); }
   .btn-undo:hover { border-color: var(--yellow); color: var(--yellow); }
-  .btn-delete { background: none; border: 1px solid rgba(248,113,113,0.25); color: var(--red); border-radius: 6px; font-size: 0.75rem; padding: 0.3rem 0.5rem; cursor: pointer; font-family: 'DM Sans', sans-serif; opacity: 0.6; transition: all 0.15s; }
+  .btn-delete { background: none; border: 1px solid rgba(248,113,113,0.25); color: var(--red); border-radius: 4px; font-size: 0.75rem; padding: 0.3rem 0.5rem; cursor: pointer; font-family: var(--font); opacity: 0.6; transition: all 0.15s; }
   .btn-delete:hover { opacity: 1; background: rgba(248,113,113,0.1); border-color: var(--red); }
   .action-cell { display: flex; gap: 0.3rem; align-items: center; }
 
